@@ -4,13 +4,41 @@ A Claudio plugin that transforms Claudio into a professional design creation too
 
 ## Installation
 
-Add to your Claudio configuration:
+Add to `~/.claudio/init.lua`:
+
+```lua
+claudio.plugin.use({
+  source = "Abraxas-365/claudio-design",
+  config = function()
+    -- All fields optional — defaults are shown below
+    claudio.design.configure({
+      critic_model   = "claude-haiku-4-5-20251001",  -- vision scoring model
+      fidelity_model = "claude-haiku-4-5-20251001",  -- fidelity review model
+    })
+  end,
+})
+```
+
+Then run `:PluginSync` to download and activate.
+
+### Minimal install (use defaults)
 
 ```lua
 claudio.plugin.use({ source = "Abraxas-365/claudio-design" })
 ```
 
-Then run `:PluginSync` to download and activate.
+### Upgrade critic model for best quality
+
+```lua
+claudio.plugin.use({
+  source = "Abraxas-365/claudio-design",
+  config = function()
+    claudio.design.configure({
+      critic_model   = "claude-opus-4-6",
+      fidelity_model = "claude-opus-4-6",
+    })
+  end,
+})
 
 ## Prerequisites
 
