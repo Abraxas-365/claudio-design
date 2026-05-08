@@ -189,27 +189,24 @@ local function make_slug(path)
 end
 
 ------------------------------------------------------------------------
--- 9. Config helpers — read from storage → env → default
+-- 9. Module-local config — overridable via setup()
 ------------------------------------------------------------------------
+local _config = {
+  critic_model   = os.getenv("CLAUDIO_DESIGN_CRITIC_MODEL") or "claude-haiku-4-5-20251001",
+  fidelity_model = os.getenv("CLAUDIO_DESIGN_FIDELITY_MODEL") or "claude-haiku-4-5-20251001",
+}
+
 local function critic_model()
-  return claudio.storage.get("design:critic_model")
-      or os.getenv("CLAUDIO_DESIGN_CRITIC_MODEL")
-      or "claude-haiku-4-5-20251001"
+  return _config.critic_model
 end
 
 local function fidelity_model()
-  return claudio.storage.get("design:fidelity_model")
-      or os.getenv("CLAUDIO_DESIGN_FIDELITY_MODEL")
-      or "claude-haiku-4-5-20251001"
+  return _config.fidelity_model
 end
 
 ------------------------------------------------------------------------
--- 10. Registration guard — only runs in the isolated plugin VM where
---     PLUGIN_DIR is injected by the Go runtime.  When this file is
---     loaded via require() in the main Lua VM, PLUGIN_DIR is nil and
---     all registration is skipped, preventing double-registration.
+-- 10. Registration
 ------------------------------------------------------------------------
-if PLUGIN_DIR ~= nil then
 
 ------------------------------------------------------------------------
 -- 11. Load enhanced skills from plugin directory
@@ -1570,8 +1567,6 @@ claudio.hooks.on("PostToolUse", "CreateDesignSession", function(ctx)
   end
 end)
 
-end -- if PLUGIN_DIR ~= nil
-
 ------------------------------------------------------------------------
 -- Module table — returned when loaded via require("claudio-design")
 ------------------------------------------------------------------------
@@ -1586,14 +1581,9 @@ local M = {}
 ---   fidelity_model string  Vision model for ReviewDesignFidelity.
 ---                          Default: claude-haiku-4-5-20251001
 function M.setup(opts)
-  opts = opts or {}
-  if opts.critic_model then
-    claudio.storage.set("design:critic_model", opts.critic_model)
+  for k, v in pairs(opts or {}) do
+    _config[k] = v
   end
-  if opts.fidelity_model then
-    claudio.storage.set("design:fidelity_model", opts.fidelity_model)
-  end
-  -- future config keys go here
 end
 
 return M
