@@ -1539,7 +1539,7 @@ claudio.tools.register({
 ------------------------------------------------------------------------
 -- 19. Hook: Copy plugin components into new design sessions
 ------------------------------------------------------------------------
-claudio.hooks.on("PostToolUse", "CreateDesignSession", function(ctx)
+claudio.hooks.register("PostToolUse", "CreateDesignSession", function(ctx)
   local session_dir = ctx and ctx.output and ctx.output:match('"session_dir"%s*:%s*"([^"]*)"')
   if not session_dir then return end
 
