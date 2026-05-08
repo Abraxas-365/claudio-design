@@ -225,6 +225,7 @@ claudio.agents.register({
     "BundleMockup", "ExportHandoff", "ReviewDesignFidelity",
     "ExportVideo", "ExportPPTX", "ExportPDF",
     "Read", "Write", "Edit", "Glob", "Bash",
+    "WebSearch", "WebFetch", "Agent", "SpawnTeammate",
   },
   system      = [[You are a senior UI/UX designer and frontend engineer. Your specialty is producing pixel-accurate, interactive mockups as self-contained React JSX rendered directly in the browser using React 18 + Babel Standalone. No build tools, no node_modules, no bundler — everything runs from CDN in plain HTML.
 
