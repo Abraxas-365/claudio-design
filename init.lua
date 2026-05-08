@@ -6,12 +6,14 @@
 -- BundleMockup, ExportHandoff, ReviewDesignFidelity) plus export tools for
 -- video (MP4), PowerPoint (PPTX), and PDF output.
 --
--- Config pattern — set at init time via claudio.storage:
+-- Config pattern — call setup() from your config callback:
 --   claudio.plugin.use({
 --     source = "Abraxas-365/claudio-design",
 --     config = function()
---       claudio.storage.set("design:critic_model",   "claude-opus-4-6")
---       claudio.storage.set("design:fidelity_model", "claude-opus-4-6")
+--       require("claudio-design").setup({
+--         critic_model   = "claude-opus-4-6",  -- optional, default: haiku
+--         fidelity_model = "claude-opus-4-6",  -- optional, default: haiku
+--       })
 --     end,
 --   })
 
@@ -202,12 +204,20 @@ local function fidelity_model()
 end
 
 ------------------------------------------------------------------------
--- 10. Load enhanced skills from plugin directory
+-- 10. Registration guard — only runs in the isolated plugin VM where
+--     PLUGIN_DIR is injected by the Go runtime.  When this file is
+--     loaded via require() in the main Lua VM, PLUGIN_DIR is nil and
+--     all registration is skipped, preventing double-registration.
+------------------------------------------------------------------------
+if PLUGIN_DIR ~= nil then
+
+------------------------------------------------------------------------
+-- 11. Load enhanced skills from plugin directory
 ------------------------------------------------------------------------
 claudio.skills.load_dir(plugin_dir .. "/skills")
 
 ------------------------------------------------------------------------
--- 11. Tool: ListDesigns
+-- 12. Tool: ListDesigns
 --     Scan ~/.claudio/projects/{slug}/designs/ and return session list
 ------------------------------------------------------------------------
 claudio.tools.register({
@@ -1559,3 +1569,31 @@ claudio.hooks.on("PostToolUse", "CreateDesignSession", function(ctx)
     end
   end
 end)
+
+end -- if PLUGIN_DIR ~= nil
+
+------------------------------------------------------------------------
+-- Module table — returned when loaded via require("claudio-design")
+------------------------------------------------------------------------
+local M = {}
+
+--- Configure the claudio-design plugin.
+--- Call this from your config callback inside claudio.plugin.use().
+---
+--- @param opts table|nil  Optional configuration keys:
+---   critic_model   string  Vision model for VerifyMockup scoring.
+---                          Default: claude-haiku-4-5-20251001
+---   fidelity_model string  Vision model for ReviewDesignFidelity.
+---                          Default: claude-haiku-4-5-20251001
+function M.setup(opts)
+  opts = opts or {}
+  if opts.critic_model then
+    claudio.storage.set("design:critic_model", opts.critic_model)
+  end
+  if opts.fidelity_model then
+    claudio.storage.set("design:fidelity_model", opts.fidelity_model)
+  end
+  -- future config keys go here
+end
+
+return M
