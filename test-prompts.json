@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "prompt": "I want to make a SaaS product landing page. Show me 3 style directions to compare.",
+    "expected": "Triggers clarifying questions about design context/brand; produces 3 variations via design-canvas.jsx; no purple gradients/emoji/Inter-as-display slop; specific rationale for each variation's differentiating dimension",
+    "skills_tested": ["design-flow", "design-direction-advisor", "anti-slop-rules"],
+    "components_used": ["design-canvas.jsx"]
+  },
+  {
+    "id": 2,
+    "prompt": "Help me make a 10-page product pitch deck for an AI tool startup.",
+    "expected": "Uses deck-stage.js; vocalizes design system (colors/fonts/layout rhythm) and waits for confirmation; alternates section divider/content/data/quote layouts; font size >= 24px; 1-indexed slide labels",
+    "skills_tested": ["design-flow", "anti-slop-rules"],
+    "components_used": ["deck-stage.js"]
+  },
+  {
+    "id": 3,
+    "prompt": "Create a 30-second HTML animation explaining how neural networks work.",
+    "expected": "Uses animations.jsx Stage+Sprite; writes timeline before components; entrance easeOut / exit easeIn; phases tell a story rather than stacking animations; text stays on screen >= 3 seconds",
+    "skills_tested": ["design-flow", "prototype"],
+    "components_used": ["animations.jsx", "stage.jsx"]
+  },
+  {
+    "id": 4,
+    "prompt": "Design a Habit Tracker App prototype.",
+    "expected": "Asks user for overview layout vs flow demo (defaults to overview); uses ios-frame.jsx — never hand-writes Dynamic Island; tracker is a high-density type, each screen has >= 3 information density elements (completion rate, streak count, trend chart, achievement badges — not decorative); at least 5-7 screens side-by-side (Home/New Habit/Detail/Statistics/Settings)",
+    "skills_tested": ["design-flow", "prototype", "anti-slop-rules"],
+    "components_used": ["ios-frame.jsx"]
+  },
+  {
+    "id": 5,
+    "prompt": "Design a Reading Notes App prototype.",
+    "expected": "Overview layout by default; uses ios-frame.jsx; reading notes is content-display focused, information density is less extreme than a tracker but note list screen still needs >= 3 information layers (book, quotes, tags, progress); at least 4-6 screens (Bookshelf/Note Detail/Highlight Annotation/Search/Notebook Management); typography prioritizes serif display font",
+    "skills_tested": ["design-flow", "prototype", "anti-slop-rules"],
+    "components_used": ["ios-frame.jsx"]
+  },
+  {
+    "id": 6,
+    "prompt": "Design a Running Tracker App prototype.",
+    "expected": "Overview layout; uses ios-frame.jsx; running app is high-density type (map, pace curve, heart rate zones, per-km split data), each screen has >= 3 product-differentiating data points; at least 5 screens (Today Overview/Live Run Data/Route Map/History/Monthly Stats); avoids AI slop (no purple gradients, no decorative icons, but data visualization icons are acceptable)",
+    "skills_tested": ["design-flow", "prototype", "anti-slop-rules"],
+    "components_used": ["ios-frame.jsx"]
+  },
+  {
+    "id": 7,
+    "prompt": "Make me a nice website for my coffee shop.",
+    "expected": "Triggers design-direction-advisor (vague brief); asks for brand assets (logo, photos); generates 3 directions from different design schools; waits for user to choose before proceeding; uses core-asset-protocol if brand name given",
+    "skills_tested": ["design-flow", "design-direction-advisor", "core-asset-protocol"],
+    "components_used": ["design-canvas.jsx"]
+  },
+  {
+    "id": 8,
+    "prompt": "Create a design for Stripe's new pricing page.",
+    "expected": "Triggers core-asset-protocol (specific brand mentioned); searches for Stripe logo/brand assets; extracts colors from Stripe.com; writes brand-spec.md before starting design; uses real Stripe visual identity, not generic fintech aesthetic",
+    "skills_tested": ["design-flow", "core-asset-protocol", "anti-slop-rules"],
+    "components_used": []
+  },
+  {
+    "id": 9,
+    "prompt": "Export my design as a video with background music.",
+    "expected": "Uses ExportVideo tool; calls render-video.js with --json flag; if BGM requested, chains add-music.sh; returns structured JSON with output_path",
+    "skills_tested": ["design-flow"],
+    "tools_used": ["ExportVideo"]
+  },
+  {
+    "id": 10,
+    "prompt": "Review and score this design mockup.",
+    "expected": "Uses critique-guide 5-dimension model; scores each dimension 0-10 with rationale; provides 3 specific fixes per dimension; runs anti-slop check; assigns letter grade from total /50",
+    "skills_tested": ["critique-guide", "anti-slop-rules"],
+    "components_used": []
+  }
+]
